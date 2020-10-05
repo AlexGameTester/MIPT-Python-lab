@@ -2,6 +2,56 @@ import pygame as pyg
 from pygame.draw import *
 import math
 
+def main():
+    pyg.init()
+    FPS = 60
+
+    screen_width, screen_height = 1032, 768
+
+    screen = pyg.display.set_mode((screen_width, screen_height))
+    screen.fill(COLOR['GREEN'])
+
+    draw_scene(screen, screen_width, screen_height)
+
+    # display and quit event handling
+    pyg.display.update()
+    clock = pyg.time.Clock()
+    finished = False
+
+    while not finished:
+        for event in pyg.event.get():
+            if event.type == pyg.QUIT:
+                finished = True
+    pyg.quit()
+
+
+def draw_scene(screen, screen_width, screen_height):
+    '''
+    Draws scene on screen with resolution screen_width*screen_height
+    screen - screen to draw
+    screen_width - it's width
+    screen_height - it's height
+    '''
+    # sky
+    rect(screen, COLOR['BLUE'], (0, 0, screen_width, screen_height // 2))
+
+    # right couple
+    man(screen, 130, 380, 100, 170)
+    woman(screen, 420, 360, 160, 200)
+    new = pyg.transform.flip(screen, True, False)
+    screen.blit(new, (0, 0))
+    # left couple
+    man(screen, 130, 380, 100, 170)
+    woman(screen, 420, 360, 160, 200)
+
+    line(screen, COLOR['BLACK'], (80, 510), (65, 300), 2)
+    balloons(screen, 65, 300, 50)
+
+    line(screen, COLOR['BLACK'], (screen_width//2, 30+screen_height//2), (20+screen_width//2, screen_height//4), 2)
+    balloons(screen, 20+screen_width//2, screen_height//4, 60, size=120)
+
+    ice_cream(screen, 940, 500, 90, size=80)
+
 
 def man(plot, x, y, width, height):
     ellipse(plot, COLOR['PURPLE'], (x, y, width, height))
@@ -91,7 +141,7 @@ def balloons(plot, x, y, angle, size=80):
     y2 = int(y - size * math.sin(math.radians(angle)))
     x3 = int(x + size * math.cos(math.radians(180 - angle - 60)))
     y3 = int(y - size * math.sin(math.radians(180 - angle - 60)))
-    polygon(screen, COLOR['RED'],
+    polygon(plot, COLOR['RED'],
             [(x, y), (x2, y2), (x3, y3)])
     circle(plot, COLOR['RED'], (int(0.25*x2 + 0.75*x3), int(0.25*y2 + 0.75*y3)), size//4)
     circle(plot, COLOR['RED'], (int(0.75*x2 + 0.25*x3), int(0.75*y2 + 0.25*y3)), size//4)
@@ -102,7 +152,7 @@ def ice_cream(plot, x, y, angle, size):
     y2 = int(y - size * math.sin(math.radians(angle)))
     x3 = int(x + size * math.cos(math.radians(180 - angle - 60)))
     y3 = int(y - size * math.sin(math.radians(180 - angle - 60)))
-    polygon(screen, COLOR['YELLOW'],
+    polygon(plot, COLOR['YELLOW'],
             [(x, y), (x2, y2), (x3, y3)])
     circle(plot, COLOR['BROWN'], (int(0.25 * x2 + 0.75 * x3), int(0.25 * y2 + 0.75 * y3)), size//4)
     circle(plot, COLOR['RED'], (int(0.75 * x2 + 0.25 * x3), int(0.75 * y2 + 0.25 * y3)), size//4)
@@ -111,8 +161,6 @@ def ice_cream(plot, x, y, angle, size):
     circle(plot, COLOR['WHITE'], (int(x_white), int(y_white)), size//4)
 
 
-pyg.init()
-FPS = 60
 COLOR = {
     'GREEN': (55, 200, 113),
     'BLUE': (170, 238, 255),
@@ -125,38 +173,6 @@ COLOR = {
     'YELLOW': (255, 204, 0),
     'BLACK': (0, 0, 0),
 }
-w, h = 1032, 768
 
-screen = pyg.display.set_mode((w, h))
-screen.fill(COLOR['GREEN'])
-# sky
-rect(screen, COLOR['BLUE'], (0, 0, w, h // 2))
-
-# right couple
-man(screen, 130, 380, 100, 170)
-woman(screen, 420, 360, 160, 200)
-new = pyg.transform.flip(screen, True, False)
-screen.blit(new, (0, 0))
-# left couple
-man(screen, 130, 380, 100, 170)
-woman(screen, 420, 360, 160, 200)
-
-line(screen, COLOR['BLACK'], (80, 510), (65, 300), 2)
-balloons(screen, 65, 300, 50)
-
-line(screen, COLOR['BLACK'], (w//2, 30+h//2), (20+w//2, h//4), 2)
-balloons(screen, 20+w//2, h//4, 60, size=120)
-
-ice_cream(screen, 940, 500, 90, size=80)
-
-# display and quit event handling
-pyg.display.update()
-clock = pyg.time.Clock()
-finished = False
-
-while not finished:
-    for event in pyg.event.get():
-        if event.type == pyg.QUIT:
-            finished = True
-pyg.quit()
-
+if __name__ == "__main__":
+    main()
