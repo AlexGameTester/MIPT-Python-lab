@@ -179,17 +179,26 @@ def woman(surface, x, y, width, height):
          (x + int(0.3 * width), y + int(1.45 * height) + 3), 2)
 
 
-def balloons(plot, x, y, angle, size=80):
-    x2 = int(x - size * math.cos(math.radians(angle)))
-    y2 = int(y - size * math.sin(math.radians(angle)))
-    x3 = int(x + size * math.cos(math.radians(180 - angle - 60)))
-    y3 = int(y - size * math.sin(math.radians(180 - angle - 60)))
-    polygon(plot, COLOR['RED'],
-            [(x, y), (x2, y2), (x3, y3)])
-    circle(plot, COLOR['RED'], (int(0.25*x2 + 0.75*x3),
-                                int(0.25*y2 + 0.75*y3)), size//4)
-    circle(plot, COLOR['RED'], (int(0.75*x2 + 0.25*x3),
-                                int(0.75*y2 + 0.25*y3)), size//4)
+def balloons(surface, x, y, angle, size=80):
+    """
+    Draws heart-shaped balloon
+    @param surface: surface to draw on
+    @param x: x coordinate of bottom center point
+    @param y: y coordinate of bottom center point
+    @param angle: angle of triangle at the bottom of the heart
+    @param size: triangle side size
+    """
+    # triangle represents bottom of the heart
+    triangle_left_x = int(x - size * math.cos(math.radians(angle)))
+    triangle_left_y = int(y - size * math.sin(math.radians(angle)))
+    triangle_right_x = int(x + size * math.cos(math.radians(180 - angle - 60)))
+    triangle_right_y = int(y - size * math.sin(math.radians(180 - angle - 60)))
+    polygon(surface, COLOR['RED'],
+            [(x, y), (triangle_left_x, triangle_left_y), (triangle_right_x, triangle_right_y)])
+    circle(surface, COLOR['RED'], (int(0.25 * triangle_left_x + 0.75 * triangle_right_x),
+                                   int(0.25 * triangle_left_y + 0.75 * triangle_right_y)), size // 4)
+    circle(surface, COLOR['RED'], (int(0.75 * triangle_left_x + 0.25 * triangle_right_x),
+                                   int(0.75 * triangle_left_y + 0.25 * triangle_right_y)), size // 4)
 
 
 def ice_cream(plot, x, y, angle, size):
