@@ -16,7 +16,6 @@ def main():
 
     # display and quit event handling
     pyg.display.update()
-    clock = pyg.time.Clock()
     finished = False
 
     while not finished:
@@ -27,12 +26,12 @@ def main():
 
 
 def draw_scene(screen, screen_width, screen_height):
-    '''
+    """
     Draws scene on screen with resolution screen_width*screen_height
     screen - screen to draw
     screen_width - it's width
     screen_height - it's height
-    '''
+    """
     # sky
     rect(screen, COLOR['BLUE'], (0, 0, screen_width, screen_height // 2))
 
@@ -56,11 +55,11 @@ def draw_scene(screen, screen_width, screen_height):
 
 
 def man(surface, x, y, width, height):
-    '''
+    """
     Draws a man
     x, y - coordinates of the center of man's torso(without legs, arms and head)
     width, height - width and height of man's torso
-    '''
+    """
 
     # torso
     torso_rect = (x, y, width, height)
@@ -95,75 +94,89 @@ def man(surface, x, y, width, height):
          (x + int(.8*width), y + height//10),
          (x + int(1.6*width), y + height//2), 2)
     # legs
-    leg1_hip = (x + width//3, y + int(0.95*height))
-    leg1_heel = (x + width//20, y + int(1.5*height))
-    leg1_toe = (x - width//4, y + int(1.5*height) + 2)
+    leg1_top = (x + width//3, y + int(0.95*height))
+    leg1_mid = (x + width//20, y + int(1.5*height))
+    leg1_bot = (x - width//4, y + int(1.5*height) + 2)
     line(surface, COLOR['BLACK'],
-         leg1_hip,
-         leg1_heel, 2)
+         leg1_top,
+         leg1_mid, 2)
     line(surface, COLOR['BLACK'],
-         leg1_heel,
-         leg1_toe, 2)
+         leg1_mid,
+         leg1_bot, 2)
 
-    leg2_hip = (x + 2*width//3, y + int(0.95*height))
-    leg2_heel = (x + 3*width//4, y + int(1.49*height))
-    leg2_toe = (x + width, y + int(1.5*height))
+    leg2_top = (x + 2*width//3, y + int(0.95*height))
+    leg2_mid = (x + 3*width//4, y + int(1.49*height))
+    leg2_bot = (x + width, y + int(1.5*height))
     line(surface, COLOR['BLACK'],
-         leg2_hip,
-         leg2_heel, 2)
+         leg2_top,
+         leg2_mid, 2)
     line(surface, COLOR['BLACK'],
-         leg2_heel,
-         leg2_toe, 2)
+         leg2_mid,
+         leg2_bot, 2)
 
 
-def woman(plot, x, y, width, height):
+def woman(surface, x, y, width, height):
+    """
+    Draws woman.
+    surface - surface to draw on
+    x, y - coordinates of the highest point of a torso triangle aka end of a neck
+    width, height - width and height of torso triangle
+    """
     # hairs
-    circle(plot, COLOR['BROWN'], (x, y-height//8), height//4)
-    rect(plot, COLOR['BROWN'], (x-height//4,
-                                y-height//8, height//2, height//2))
-    polygon(plot, COLOR['PINK'],
+    circle(surface, COLOR['BROWN'], (x, y - height // 8), height // 4)
+    rect(surface, COLOR['BROWN'], (x - height // 4,
+                                   y - height // 8, height // 2, height // 2))
+    # torso
+    polygon(surface, COLOR['PINK'],
             [(x, y), (x-width//2, y+height), (x+width//2, y+height)])
-    circle(plot, COLOR['FACE_COLOR'], (x, y-height//16), 2*height//11)
+    # head
+    circle(surface, COLOR['FACE_COLOR'], (x, y - height // 16), 2 * height // 11)
     # eyes
-    circle(plot, COLOR['WHITE'],
-           (x-int(0.1*width), y-int(0.1*height)), height//25)
-    circle(plot, COLOR['BLACK'],
-           (x-int(0.1*width), y-int(0.1*height)), height//50)
-    circle(plot, COLOR['WHITE'],
-           (x+int(0.1*width), y-int(0.1*height)), height//25)
-    circle(plot, COLOR['BLACK'],
-           (x+int(0.1*width), y-int(0.1*height)), height//50)
+    eyes_y = y - int(0.1 * height)
+    eyes_dx = int(0.1 * width)
+    circle(surface, COLOR['WHITE'],
+           (x - eyes_dx, eyes_y), height // 25)
+    circle(surface, COLOR['BLACK'],
+           (x - eyes_dx, eyes_y), height // 50)
+    circle(surface, COLOR['WHITE'],
+           (x + eyes_dx, eyes_y), height // 25)
+    circle(surface, COLOR['BLACK'],
+           (x + eyes_dx, eyes_y), height // 50)
     # nose
-    line(plot, COLOR['BLACK'],
-         (x, y - int(0.1*height)),
+    line(surface, COLOR['BLACK'],
+         (x, y - int(0.1 * height)),
          (x, y), 1)
     # mouth
-    arc(plot, COLOR['BLACK'],
-        (x-int(0.1*width), y-int(0.08*height), int(0.2*width), height//6),
+    arc(surface, COLOR['BLACK'],
+        (x - int(0.1 * width), y - int(0.08 * height), int(0.2 * width), height // 6),
         1.1 * math.pi, 1.9 * math.pi, 2)
     # hands
-    line(plot, COLOR['BLACK'],
+    line(surface, COLOR['BLACK'],
          (x - width//12, y + height//6),
-         (x - int(0.8*width), y + int(0.55*height)), 2)
-    line(plot, COLOR['BLACK'],
+         (x - int(0.8 * width), y + int(0.55 * height)), 2)
+    line(surface, COLOR['BLACK'],
          (x + width//12, y + height//6),
-         (x + int(0.4*width), y + int(0.4*height)), 2)
-    line(plot, COLOR['BLACK'],
-         (x + int(0.4*width), y + int(0.4*height)),
-         (x + int(0.6*width), y + height//4), 2)
+         (x + int(0.4 * width), y + int(0.4 * height)), 2)
+    line(surface, COLOR['BLACK'],
+         (x + int(0.4 * width), y + int(0.4 * height)),
+         (x + int(0.6 * width), y + height//4), 2)
     # legs
-    line(plot, COLOR['BLACK'],
-         (x - width//10, y + height),
-         (x - width//10, y + int(1.45*height)), 2)
-    line(plot, COLOR['BLACK'],
-         (x - width//10, y + int(1.45*height)),
+    #  leg 1
+    leg1_mid = (x - width // 10, y + int(1.45 * height))
+    line(surface, COLOR['BLACK'],
+         (x - width // 10, y + height),
+         leg1_mid, 2)
+    line(surface, COLOR['BLACK'],
+         leg1_mid,
          (x - int(0.3*width), y + int(1.45*height)), 2)
-    line(plot, COLOR['BLACK'],
+    #  leg 2
+    leg2_mid = (x + width // 10, y + int(1.45 * height))
+    line(surface, COLOR['BLACK'],
          (x + width//10, y + height),
-         (x + width//10, y + int(1.45*height)), 2)
-    line(plot, COLOR['BLACK'],
-         (x + width//10, y + int(1.45*height)),
-         (x + int(0.3*width), y + int(1.45*height) + 3), 2)
+         leg2_mid, 2)
+    line(surface, COLOR['BLACK'],
+         leg2_mid,
+         (x + int(0.3 * width), y + int(1.45 * height) + 3), 2)
 
 
 def balloons(plot, x, y, angle, size=80):
