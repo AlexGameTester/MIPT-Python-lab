@@ -201,20 +201,29 @@ def balloons(surface, x, y, angle, size=80):
                                    int(0.75 * triangle_left_y + 0.25 * triangle_right_y)), size // 4)
 
 
-def ice_cream(plot, x, y, angle, size):
-    x2 = int(x - size * math.cos(math.radians(angle)))
-    y2 = int(y - size * math.sin(math.radians(angle)))
-    x3 = int(x + size * math.cos(math.radians(180 - angle - 60)))
-    y3 = int(y - size * math.sin(math.radians(180 - angle - 60)))
-    polygon(plot, COLOR['YELLOW'],
-            [(x, y), (x2, y2), (x3, y3)])
-    circle(plot, COLOR['BROWN'], (int(0.25 * x2 + 0.75 * x3),
-                                  int(0.25 * y2 + 0.75 * y3)), size//4)
-    circle(plot, COLOR['RED'], (int(0.75 * x2 + 0.25 * x3),
-                                int(0.75 * y2 + 0.25 * y3)), size//4)
-    x_white = (x2 + x3)/2 - size//4 * math.cos(math.radians(30+angle))
-    y_white = (y2 + y3)/2 - size//4 * math.sin(math.radians(30+angle))
-    circle(plot, COLOR['WHITE'], (int(x_white), int(y_white)), size//4)
+def ice_cream(surface: pyg.Surface, x, y, angle, size):
+    """
+    Draws ice-cream
+    @param surface: surface to draw on
+    @param x: x coordinate of bottom center point
+    @param y: y coordinate of bottom center point
+    @param angle: angle of bottom triangle of ice-cream cone
+    @param size: size of side of the cone
+    """
+    # triangle represents a cone
+    triangle_left_x = int(x - size * math.cos(math.radians(angle)))
+    triangle_left_y = int(y - size * math.sin(math.radians(angle)))
+    triangle_right_x = int(x + size * math.cos(math.radians(180 - angle - 60)))
+    triangle_right_y = int(y - size * math.sin(math.radians(180 - angle - 60)))
+    polygon(surface, COLOR['YELLOW'],
+            [(x, y), (triangle_left_x, triangle_left_y), (triangle_right_x, triangle_right_y)])
+    circle(surface, COLOR['BROWN'], (int(0.25 * triangle_left_x + 0.75 * triangle_right_x),
+                                     int(0.25 * triangle_left_y + 0.75 * triangle_right_y)), size // 4)
+    circle(surface, COLOR['RED'], (int(0.75 * triangle_left_x + 0.25 * triangle_right_x),
+                                   int(0.75 * triangle_left_y + 0.25 * triangle_right_y)), size // 4)
+    x_white = (triangle_left_x + triangle_right_x)/2 - size//4 * math.cos(math.radians(30 + angle))
+    y_white = (triangle_left_y + triangle_right_y)/2 - size//4 * math.sin(math.radians(30 + angle))
+    circle(surface, COLOR['WHITE'], (int(x_white), int(y_white)), size // 4)
 
 
 COLOR = {
