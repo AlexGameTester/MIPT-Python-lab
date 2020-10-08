@@ -57,7 +57,7 @@ def draw_scene(screen, screen_width, screen_height):
     ice_cream(screen, 940, 500, 90, size=80)
 
 
-def man(surface, x, y, width, height):
+def man(surface, x, y, width, height, draw_face=True):
     """
     Draws a man
     @param surface: surface to draw on
@@ -65,33 +65,35 @@ def man(surface, x, y, width, height):
     @param y: y coordinates of the center of man's torso(without legs, arms and head)
     @param width: torso width
     @param height: torso height
+    @param draw_face: if man's face should be drawn
     """
 
     # torso
     torso_rect = (x, y, width, height)
     ellipse(surface, COLOR['PURPLE'], torso_rect)
+    # head
+    head_center = (x + width // 2, y - height // 6)
+    head_height = height // 5
+    circle(surface, COLOR['FACE_COLOR'], head_center, head_height)
 
-    # face
-    face_center = (x + width // 2, y - height // 6)
-    face_height = height // 5
-    circle(surface, COLOR['FACE_COLOR'], face_center, face_height)
-    # eyes
-    eyes_height = y - int(0.22 * height)
-    circle(surface, COLOR['WHITE'], (x + width // 3, eyes_height), height // 20)
-    circle(surface, COLOR['BLACK'],
-           (x + int(0.32 * width), eyes_height), height // 45)
-    circle(surface, COLOR['WHITE'],
-           (x + int(0.65 * width), eyes_height), height // 20)
-    circle(surface, COLOR['BLACK'],
-           (x + int(0.66 * width), eyes_height), height // 45)
-    # nose
-    line(surface, COLOR['BLACK'],
-         (x + width // 2, y - int(0.2 * height)),
-         (x + width // 2, y - int(0.1 * height)), 1)
-    # mouth
-    arc(surface, COLOR['BLACK'],
-        (x + int(0.35 * width), y - int(0.18 * height), int(0.3 * width), height // 6),
-        1.1 * math.pi, 1.9 * math.pi, 2)
+    if draw_face:
+        # eyes
+        eyes_height = y - int(0.22 * height)
+        circle(surface, COLOR['WHITE'], (x + width // 3, eyes_height), height // 20)
+        circle(surface, COLOR['BLACK'],
+               (x + int(0.32 * width), eyes_height), height // 45)
+        circle(surface, COLOR['WHITE'],
+               (x + int(0.65 * width), eyes_height), height // 20)
+        circle(surface, COLOR['BLACK'],
+               (x + int(0.66 * width), eyes_height), height // 45)
+        # nose
+        line(surface, COLOR['BLACK'],
+             (x + width // 2, y - int(0.2 * height)),
+             (x + width // 2, y - int(0.1 * height)), 1)
+        # mouth
+        arc(surface, COLOR['BLACK'],
+            (x + int(0.35 * width), y - int(0.18 * height), int(0.3 * width), height // 6),
+            1.1 * math.pi, 1.9 * math.pi, 2)
     # hands
     line(surface, COLOR['BLACK'],
          (x + width // 5, y + height // 10),
@@ -121,41 +123,51 @@ def man(surface, x, y, width, height):
          leg2_bot, 2)
 
 
-def woman(surface, x, y, width, height):
+def woman(surface, x, y, width, height, draw_face=True, draw_hair=True):
     """
     Draws woman.
     surface - surface to draw on
     x, y - coordinates of the highest point of a torso triangle aka end of a neck
     width, height - width and height of torso triangle
+    @param surface: surface to draw on
+    @param x: x coordinate of the highest point of a torso triangle aka end of a neck
+    @param y: y coordinate of the highest point of a torso triangle aka end of a neck
+    @param width: torso triangle width
+    @param height: torso triangle height
+    @param draw_face: if woman's face should be drawn
+    @param draw_hair: if woman's hair should be drawn
     """
-    # hairs
-    circle(surface, COLOR['BROWN'], (x, y - height // 8), height // 4)
-    rect(surface, COLOR['BROWN'], (x - height // 4,
-                                   y - height // 8, height // 2, height // 2))
+    if draw_hair:
+        # hairs
+        circle(surface, COLOR['BROWN'], (x, y - height // 8), height // 4)
+        rect(surface, COLOR['BROWN'], (x - height // 4,
+                                       y - height // 8, height // 2, height // 2))
     # torso
     polygon(surface, COLOR['PINK'],
             [(x, y), (x - width // 2, y + height), (x + width // 2, y + height)])
     # head
     circle(surface, COLOR['FACE_COLOR'], (x, y - height // 16), 2 * height // 11)
-    # eyes
-    eyes_y = y - int(0.1 * height)
-    eyes_dx = int(0.1 * width)
-    circle(surface, COLOR['WHITE'],
-           (x - eyes_dx, eyes_y), height // 25)
-    circle(surface, COLOR['BLACK'],
-           (x - eyes_dx, eyes_y), height // 50)
-    circle(surface, COLOR['WHITE'],
-           (x + eyes_dx, eyes_y), height // 25)
-    circle(surface, COLOR['BLACK'],
-           (x + eyes_dx, eyes_y), height // 50)
-    # nose
-    line(surface, COLOR['BLACK'],
-         (x, y - int(0.1 * height)),
-         (x, y), 1)
-    # mouth
-    arc(surface, COLOR['BLACK'],
-        (x - int(0.1 * width), y - int(0.08 * height), int(0.2 * width), height // 6),
-        1.1 * math.pi, 1.9 * math.pi, 2)
+
+    if draw_face:
+        # eyes
+        eyes_y = y - int(0.1 * height)
+        eyes_dx = int(0.1 * width)
+        circle(surface, COLOR['WHITE'],
+               (x - eyes_dx, eyes_y), height // 25)
+        circle(surface, COLOR['BLACK'],
+               (x - eyes_dx, eyes_y), height // 50)
+        circle(surface, COLOR['WHITE'],
+               (x + eyes_dx, eyes_y), height // 25)
+        circle(surface, COLOR['BLACK'],
+               (x + eyes_dx, eyes_y), height // 50)
+        # nose
+        line(surface, COLOR['BLACK'],
+             (x, y - int(0.1 * height)),
+             (x, y), 1)
+        # mouth
+        arc(surface, COLOR['BLACK'],
+            (x - int(0.1 * width), y - int(0.08 * height), int(0.2 * width), height // 6),
+            1.1 * math.pi, 1.9 * math.pi, 2)
     # hands
     line(surface, COLOR['BLACK'],
          (x - width // 12, y + height // 6),
@@ -191,7 +203,7 @@ def balloons(surface, x, y, angle, size=80):
     @param surface: surface to draw on
     @param x: x coordinate of bottom center point
     @param y: y coordinate of bottom center point
-    @param angle: angle of triangle at the bottom of the heart
+    @param angle: rotation angle in degrees
     @param size: triangle side size
     """
     # triangle represents bottom of the heart
@@ -213,7 +225,7 @@ def ice_cream(surface: pyg.Surface, x, y, angle, size):
     @param surface: surface to draw on
     @param x: x coordinate of bottom center point
     @param y: y coordinate of bottom center point
-    @param angle: angle of bottom triangle of ice-cream cone
+    @param angle: rotation angle in degrees
     @param size: size of side of the cone
     """
     # triangle represents a cone
