@@ -31,9 +31,9 @@ def main():
 def draw_scene(screen, screen_width, screen_height):
     """
     Draws scene on screen with resolution screen_width*screen_height
-    screen - screen to draw
-    screen_width - it's width
-    screen_height - it's height
+    @param screen: screen to draw on
+    @param screen_width: screen's width
+    @param screen_height: screen's height
     """
     # sky
     rect(screen, COLOR['BLUE'], (0, 0, screen_width, screen_height // 2))
@@ -60,8 +60,11 @@ def draw_scene(screen, screen_width, screen_height):
 def man(surface, x, y, width, height):
     """
     Draws a man
-    x, y - coordinates of the center of man's torso(without legs, arms and head)
-    width, height - width and height of man's torso
+    @param surface: surface to draw on
+    @param x: x coordinate of the center of man's torso(without legs, arms and head)
+    @param y: y coordinates of the center of man's torso(without legs, arms and head)
+    @param width: torso width
+    @param height: torso height
     """
 
     # torso
